@@ -1,1 +1,0 @@
-# hendi-sofia.github.io
