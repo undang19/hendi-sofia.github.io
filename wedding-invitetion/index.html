@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #c5a049;
+            --dark: #2d2d2d;
+            --cream: #fffaf0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--cream);
+            color: var(--dark);
+        }
+
+        .opening-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                        url('images/opening-bg.jpg');
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 1000;
+            transition: 1s all;
+        }
+
+        .opening-screen h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .open-btn {
+            padding: 15px 40px;
+            background: var(--gold);
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .open-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .main-content {
+            display: none;
+            padding: 40px 20px;
+        }
+
+        .section {
+            margin: 50px 0;
+            padding: 40px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .countdown {
+            background: var(--gold);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            margin: 30px 0;
+            border-radius: 10px;
+        }
+
+        .countdown-numbers {
+            font-size: 2.5rem;
+            margin: 10px 0;
+        }
+
+        .couple-profiles {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin: 40px 0;
+        }
+
+        .profile-card {
+            text-align: center;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 300px;
+        }
+
+        .event-details {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .map-container {
+            margin: 30px auto;
+            width: 100%;
+            max-width: 600px;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .gallery-item {
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .rsvp-section {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .attendance-counter {
+            font-size: 2rem;
+            color: var(--gold);
+            margin: 20px 0;
+        }
+
+        .comment-section {
+            margin: 40px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .comment-form {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .comment-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            height: 100px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: none;
+        }
+
+        .comment-form button {
+            background: var(--gold);
+            color: white;
+            padding: 10px 30px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .comment-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .comment-item small {
+            color: #666;
+        }
+
+        footer {
+            background: var(--gold);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .couple-profiles {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .profile-card {
+                width: 80%;
+            }
+
+            .gallery-item {
+                height: 250px;
+            }
+
+            .map-container {
+                height: 200px;
+            }
+
+            .comment-form textarea {
+                height: 80px;
+            }
+
+            footer p {
+                font-size: 0.8rem;
+                padding: 0 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Opening Screen -->
+    <div class="opening-screen">
+        <h1 id="wedding-title">Wedding of Hendi & Sofia</h1>
+        <p>Kepada Bapak/Ibu/Saudara/i</p>
+        <p style="margin: 10px 0" id="guest-name">Helmi</p>
+        <button class="open-btn">Buka Undangan</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Invitation Text -->
+        <div class="section" style="text-align: center">
+            <h2>Atas Rahmat Tuhan Yang Maha Esa</h2>
+            <p style="margin: 20px 0; max-width: 600px; margin: 20px auto">
+                Merupakan suatu kehormatan dan kebahagiaan bagi kami sekeluarga apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu
+            </p>
+        </div>
+
+        <!-- Countdown -->
+        <div class="countdown">
+            <h3>Menuju Hari Bahagia</h3>
+            <div class="countdown-numbers" id="countdown">00 : 00 : 00 : 00</div>
+            <p>Hari - Jam - Menit - Detik</p>
+        </div>
+
+        <!-- Quran Verse -->
+        <div class="section" style="text-align: center">
+            <h3>Q.S. Ar-Rum: 21</h3>
+            <p style="margin: 20px 0; font-style: italic">
+                "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup dari jenismu sendiri, supaya kamu mendapat ketenangan hati..."
+            </p>
+        </div>
+
+        <!-- Couple Profiles -->
+        <div class="section">
+            <div class="couple-profiles">
+                <div class="profile-card">
+                    <h3 id="groom-name">Hendi</h3>
+                    <p>Putra Ketiga</p>
+                    <p> Alm.Bapak E Koswara & Ibu Titin Mulyati</p>
+                    <p>Kota Tasikmalaya</p>
+                </div>
+
+                <div class="profile-card">
+                    <h3 id="bride-name">Sofia</h3>
+                    <p>Putri Ke Empat</p>
+                    <p>Bapak Kamal & Ibu Enok</p>
+                    <p>Kota Tasikmalaya</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Event Details -->
+        <div class="section">
+            <div class="event-details">
+                <h2>Detail Acara</h2>
+                <div style="margin: 30px 0">
+                    <p>📅 <span id="wedding-date">Ahad, 29 Juni 2025</span></p>
+                    <p>⏰ 08.00 WIB - Selesai</p>
+                    <p>📍 <span id="wedding-location">Gedung Graha Asia, Tasikmalaya</span></p>
+                </div>
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15843.097600000002!2d108.20899999999999!3d-7.3255!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zN8KwMTknMzEuOCJTIDEwOMKwMTInMzIuNCJF!5e0!3m2!1sen!2sid!4v1622544000000!5m2!1sen!2sid" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parent Message -->
+        <div class="section" style="text-align: center">
+            <h2>Harapan Kami</h2>
+            <p style="margin: 20px 0; max-width: 600px; margin: 20px auto">
+                Dengan segala hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir dan memberikan doa restu. Atas kehadiran dan doanya kami ucapkan terima kasih.
+            </p>
+        </div>
+
+        <!-- Gallery -->
+        <div class="section">
+            <h2 style="text-align: center">Galeri Kami</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="images/gallery1.jpg" alt="Foto 1">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery2.jpg" alt="Foto 2">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/gallery3.jpg" alt="Foto 3">
+                </div>
+            </div>
+        </div>
+
+        <!-- RSVP Section -->
+        <div class="section">
+            <div class="rsvp-section">
+                <h2>Konfirmasi Kehadiran</h2>
+                <div class="attendance-counter" id="attendance-counter">0 Orang Akan Hadir</div>
+                <form class="rsvp-form" id="rsvp-form">
+                    <input type="text" placeholder="Nama Lengkap" required style="width: 100%; padding: 10px; margin: 10px 0">
+                    <select required style="width: 100%; padding: 10px; margin: 10px 0">
+                        <option value="">Konfirmasi Kehadiran</option>
+                        <option value="hadir">Akan Hadir</option>
+                        <option value="tidak">Tidak Hadir</option>
+                    </select>
+                    <button type="submit" style="background: var(--gold); color: white; padding: 10px 30px; border: none; border-radius: 20px; cursor: pointer">
+                        Kirim Konfirmasi
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Comment Section -->
+        <div class="section">
+            <div class="comment-section">
+                <h3 style="text-align: center">Ucapan dari Undangan</h3>
+                <div id="comments-container" style="margin: 20px 0">
+                    <!-- Komentar akan muncul di sini -->
+                </div>
+                <form class="comment-form" id="comment-form">
+                    <textarea id="comment-input" placeholder="Tulis ucapan Anda..." required></textarea>
+                    <button type="submit">Kirim Ucapan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p id="copyright-text"></p>
+    </footer>
+
+    <!-- Audio untuk Musik -->
+    <audio id="bgMusic" autoplay loop style="display: none;">
+        <source src="assets/music.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Data yang bisa diubah
+        const config = {
+            groomName: "Hendi",
+            brideName: "Sofia",
+            weddingDate: "2025-06-29T08:00:00",
+            location: "Gedung Graha Asia, Tasikmalaya",
+            guestName: "Helmi",
+            galleryImages: [
+                "images/gallery1.jpg",
+                "images/gallery2.jpg",
+                "images/gallery3.jpg"
+            ],
+        };
+
+        // Update semua elemen yang terkait
+        document.getElementById('wedding-title').textContent = `Wedding of ${config.groomName} & ${config.brideName}`;
+        document.getElementById('groom-name').textContent = config.groomName;
+        document.getElementById('bride-name').textContent = config.brideName;
+        document.getElementById('guest-name').textContent = config.guestName;
+        document.getElementById('wedding-date').textContent = new Date(config.weddingDate).toLocaleDateString('id-ID', {
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric'
+        });
+        document.getElementById('wedding-location').textContent = config.location;
+
+        // Buka Undangan
+        document.querySelector('.open-btn').addEventListener('click', () => {
+            document.querySelector('.opening-screen').style.display = 'none';
+            document.querySelector('.main-content').style.display = 'block';
+            document.getElementById('bgMusic').play();
+            
+            // Countdown
+            const weddingDate = new Date(config.weddingDate).getTime();
+            
+            const updateCountdown = () => {
+                const now = new Date().getTime();
+                const diff = weddingDate - now;
+                
+                if(diff < 0) {
+                    document.getElementById('countdown').innerHTML = "Acara Sedang Berlangsung!";
+                    return;
+                }
+                
+                const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('countdown').innerHTML = 
+                    `${days.toString().padStart(2, '0')} : 
+                     ${hours.toString().padStart(2, '0')} : 
+                     ${minutes.toString().padStart(2, '0')} : 
+                     ${seconds.toString().padStart(2, '0')}`;
+            }
+            
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+        });
+
+        // RSVP System
+        let attendanceCount = 0;
+        const form = document.getElementById('rsvp-form');
+        
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            attendanceCount++;
+            document.getElementById('attendance-counter').textContent = 
+                `${attendanceCount} Orang Akan Hadir`;
+            
+            // Reset form
+            form.reset();
+        });
+
+        // Comment System
+        let comments = [];
+        const commentForm = document.getElementById('comment-form');
+        const commentsContainer = document.getElementById('comments-container');
+
+        commentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const commentText = document.getElementById('comment-input').value;
+            const timestamp = new Date().toLocaleString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            const comment = {
+                text: commentText,
+                time: timestamp
+            };
+
+            comments.push(comment);
+            updateComments();
+            document.getElementById('comment-input').value = '';
+        });
+
+        function updateComments() {
+            commentsContainer.innerHTML = comments.map(comment => `
+                <div class="comment-item">
+                    <p>${comment.text}</p>
+                    <small>${comment.time}</small>
+                </div>
+            `).join('');
+        }
+
+        // Copyright
+        document.getElementById('copyright-text').textContent = 
+            `© ${new Date().getFullYear()} - Hendi ❤️ Sofia`;
+    </script>
+</body>
+</html>
